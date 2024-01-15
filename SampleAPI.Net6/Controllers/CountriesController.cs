@@ -22,6 +22,8 @@ namespace SampleAPI.Controllers
         {
             var countries = await _dbContext.Countries
                 .Include(c => c.Cities)
+                .Select(country => new { country.Id, country.Name, 
+                    Cities= country.Cities.Select(city=> new {city.Id, city.Name})})
                 .ToListAsync();
 
             return Ok(countries);
